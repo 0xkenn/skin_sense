@@ -7,15 +7,21 @@ environment:
   sdk: ^3.5.0
 
 dependencies:
+  better_open_file: ^3.6.5
   camera: ^0.11.0+2
+  camerawesome: ^2.1.0
   carousel_slider: ^5.0.0
+  cross_file: ^0.3.4+2
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.1
   get: ^4.6.6
   google_fonts: ^6.2.1
+  google_mlkit_face_detection: ^0.11.1
   hive_flutter: ^1.1.0
   intl: ^0.19.0
+  path_provider: ^2.1.4
+  rxdart: ^0.28.0
   tflite_v2: ^1.0.0
 
 dev_dependencies:
