@@ -1,4 +1,4 @@
-# skin_sense
+# Skin Sense
 
 A mobile application that detects facial skin type and recommend skin care ingredients based on detected skin type
 
