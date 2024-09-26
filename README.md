@@ -4,4 +4,8 @@ A mobile application that detects facial skin type and recommend skin care ingre
 
  - note:  ML model can Only detect facial skin without any background, camera feature is not yet finished.
 
-App Location: Build/Flutter
+To make the code work run:
+```flutter pub get```
+
+To build the application run:
+```flutter build apk```
