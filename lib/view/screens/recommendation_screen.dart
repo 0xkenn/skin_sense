@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skin_sense/controller/history_controller.dart';
-import 'package:skin_sense/helper/get_index.dart';
+import 'package:skin_sense/controller/get_index_controller.dart';
 import 'package:skin_sense/model/data.dart';
 
 List<String> names = <String>[

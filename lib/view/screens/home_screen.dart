@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skin_sense/view/screens/camera_screen.dart';
 import 'package:skin_sense/view/screens/history_screen.dart';
 import 'package:skin_sense/view/widgets/image_carousel.dart';
 
@@ -27,10 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const HistoryScreen(),
   ];
   void _wow() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const CameraScreen()),
-        ModalRoute.withName('/home'));
+    Navigator.pushNamed(context, '/home');
   }
 
   @override
