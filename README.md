@@ -2,4 +2,6 @@
 
 A mobile application that detects facial skin type and recommend skin care ingredients based on detected skin type
 
- - note: the mobile application is not yet finished specially in the camera and the machine learning model
+ - note:  ML model can Only detect facial skin without any background, camera feature is not yet finished.
+
+App Location: Build/Flutter
