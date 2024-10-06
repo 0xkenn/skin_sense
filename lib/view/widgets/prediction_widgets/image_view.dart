@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ImageView extends StatelessWidget {
-  final String imagePath;
+  final String? imagePath;
 
   const ImageView({super.key, required this.imagePath});
 
@@ -14,7 +14,7 @@ class ImageView extends StatelessWidget {
       child: SizedBox(
         height: 400, // Fixed height
         child: Image.file(
-          File(imagePath),
+          File(imagePath ?? 'No Image Found'),
           fit: BoxFit.cover,
         ),
       ),

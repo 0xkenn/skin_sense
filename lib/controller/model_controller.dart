@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:skin_sense/controller/history_controller.dart';
+import 'package:skin_sense/model/history.dart';
 import 'package:tflite_v2/tflite_v2.dart';
 
 abstract interface class IModelController {
@@ -24,6 +27,7 @@ class ModelController implements IModelController {
 
   @override
   Future<List?> predict(String image) async {
+    final HistoryController historyController = Get.put(HistoryController());
     try {
       List? output = await Tflite.runModelOnImage(
           path: image, numResults: 4, threshold: 0.0, asynch: true);
@@ -38,6 +42,10 @@ class ModelController implements IModelController {
           // output.insert(
           //   0, {'confidence': 99.00, 'index': 4, 'label': 'combination'}
           // );
+          historyController.addSkinTypeHistory(
+              addSkinType: History(
+                  skinTypeName: output[0]['label'], dateTime: DateTime.now()));
+
           return [
             {'confidence': 0.99, 'index': 4, 'label': 'combination'},
             output[0],
@@ -46,6 +54,9 @@ class ModelController implements IModelController {
             output[3]
           ];
         } else {
+          historyController.addSkinTypeHistory(
+              addSkinType: History(
+                  skinTypeName: output[0]['label'], dateTime: DateTime.now()));
           return [
             output[0],
             output[1],

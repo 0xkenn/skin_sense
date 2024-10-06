@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skin_sense/view/screens/recommendation_screen.dart';
-import 'package:skin_sense/view/widgets/circle_container.dart';
+import 'circle_container.dart';
 
 class BottomText extends StatelessWidget {
-  final String predictedSkinType;
+  final String? predictedSkinType;
   final List? predictions;
 
   const BottomText({
@@ -18,7 +18,6 @@ class BottomText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 100),
       child: Container(
-        // Remove fixed height
         width: double.infinity,
         alignment: AlignmentDirectional.topStart,
         decoration: const BoxDecoration(
@@ -30,7 +29,7 @@ class BottomText extends StatelessWidget {
           ),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Use min to size based on children
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 25),
@@ -58,9 +57,7 @@ class BottomText extends StatelessWidget {
               },
               child: const Text('Recommendations'),
             ),
-            const SizedBox(
-              height: 11,
-            )
+            const SizedBox(height: 11),
           ],
         ),
       ),

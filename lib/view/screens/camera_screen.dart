@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:skin_sense/controller/camera_controller.dart';
+import 'package:skin_sense/controller/image_cropper_controller.dart';
 import 'package:skin_sense/controller/model_controller.dart';
 import 'package:skin_sense/view/screens/prediction_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
+
   @override
   State<CameraScreen> createState() => _CameraScreenState();
 }
@@ -16,7 +21,6 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   void initState() {
-    // initialize camera and model controllers
     super.initState();
     initialize();
   }
@@ -24,10 +28,11 @@ class _CameraScreenState extends State<CameraScreen> {
   Future<void> initialize() async {
     await _cameraController.initialize();
     await _modelController.loadModel();
-    setState(() {
-      // re render if the value change ;)
-      _initialized = true;
-    });
+    if (mounted) {
+      setState(() {
+        _initialized = true;
+      });
+    }
   }
 
   @override
@@ -38,13 +43,26 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> predict() async {
-    var img = await _cameraController.takePicture();
-    var prediction = await _modelController.predict(img!.path);
-    _navigator(img.path, prediction);
-    dispose();
+    try {
+      XFile? img = await _cameraController.takePicture();
+
+      if (img != null) {
+        final CroppedFile croppedImage = await ImageCropperController.cropImage(
+            image: img,
+            cropAspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9));
+
+        List? prediction = await _modelController.predict(croppedImage.path);
+
+        _navigate(croppedImage.path, prediction);
+      } else {
+        Get.snackbar('error', 'No image captured. Please try again.');
+      }
+    } catch (e) {
+      Get.snackbar('error', 'Error capturing image $e');
+    }
   }
 
-  void _navigator(img, prediction) {
+  void _navigate(String? img, List? prediction) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -52,6 +70,21 @@ class _CameraScreenState extends State<CameraScreen> {
             PredictionScreen(imagePath: img, predictionResult: prediction),
       ),
     );
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final CroppedFile croppedImage = await ImageCropperController.cropImage(
+          image: pickedFile,
+          cropAspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9));
+      List? prediction = await _modelController.predict(croppedImage.path);
+      _navigate(croppedImage.path, prediction);
+    } else {
+      Get.snackbar('error', 'No image selected.');
+    }
   }
 
   @override
@@ -62,48 +95,43 @@ class _CameraScreenState extends State<CameraScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: const Color.fromRGBO(248, 237, 221, 1),
         leading: GestureDetector(
-            onTap: () {
-              Navigator.popAndPushNamed(context, "/home");
-              dispose();
-            },
-            child: const Padding(
-              padding: EdgeInsets.only(left: 15),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
-            )),
+          onTap: () {
+            Get.back();
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
+        ),
       ),
       body: _initialized
-          ? _cameraController.getCameraPreview(context)
-          : const Center(
-              child: CircularProgressIndicator(),
-            ),
+          ? _cameraController.getCameraPreview()
+          : const Center(child: CircularProgressIndicator()),
       bottomNavigationBar: BottomAppBar(
         height: 100,
-        color: const Color.fromRGBO(
-            248, 237, 221, 1), // Match the background color
+        color: const Color.fromRGBO(248, 237, 221, 1),
         child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween, // Space between the buttons
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Center(
-                  child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 50,
-                ),
-                child: IconButton(
-                  icon: Image.asset('assets/images/capture.png'),
-                  onPressed: () => predict(),
-                ),
-              )),
+            IconButton(
+              icon: const Icon(
+                Icons.photo_library_outlined,
+                size: 50.0,
+                color: Colors.grey,
+              ), // Add an icon for the gallery button
+              onPressed: _pickImageFromGallery,
+              splashColor: Colors.red,
             ),
             IconButton(
-              onPressed: () {
-                _cameraController.takePicture();
-              },
+              icon: Image.asset('assets/images/capture.png'),
+              onPressed: () => predict(),
+            ),
+            IconButton(
               icon: Image.asset('assets/images/rotate-camera.png'),
+              onPressed: () => _cameraController.rotateCamera(),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SkinTypeText extends StatelessWidget {
@@ -37,8 +38,7 @@ class SkinTypeText extends StatelessWidget {
           ),
           ElevatedButton.icon(
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/camera', ModalRoute.withName('/home'));
+              Get.back();
             },
             icon: const Icon(
               Icons.camera_alt_rounded,

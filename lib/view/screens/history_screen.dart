@@ -13,7 +13,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  final controller = Get.put(HistoryController());
+  final HistoryController controller = Get.put(HistoryController());
 
   @override
   Widget build(BuildContext context) {
