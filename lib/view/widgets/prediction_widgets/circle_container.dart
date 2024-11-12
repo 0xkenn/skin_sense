@@ -23,13 +23,13 @@ class CircleContainer extends StatelessWidget {
               width: 59,
               decoration: BoxDecoration(shape: BoxShape.circle, color: color),
               child: Center(
-                child: Text((predictions?[index]['confidence'] * 100)
+                child: Text(((predictions![index]['confidence'] ?? 0) * 100)
                         .toStringAsFixed(2) +
                     "%"),
               ),
             ),
             Text(
-              predictions?[index]['label'],
+              predictions?[index]['label'] ?? 'N/A',
               style: GoogleFonts.montserrat(color: Colors.black),
             )
           ],

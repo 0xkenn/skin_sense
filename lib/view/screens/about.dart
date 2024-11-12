@@ -78,8 +78,9 @@ class AboutScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _buildResearcherInfo(
-              'Kenny Charles Tabon', 'Developer/Lead Researcher'),
-          _buildResearcherInfo('Hazel Delda', 'Writer/Researcher'),
+              'Kenny Charles Tabon', 'Developer/Field Researcher'),
+          _buildResearcherInfo(
+              'Hazel Delda', 'UI/UX Designer/Field Researcher'),
           _buildResearcherInfo('Marc Jigson Alcantara', 'Project Assistant'),
           _buildResearcherInfo('Mark Victor Del Rosario', 'Field Researcher'),
         ],

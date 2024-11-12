@@ -4,11 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skin_sense/controller/history_controller.dart';
 import 'package:skin_sense/controller/get_index_controller.dart';
 import 'package:skin_sense/model/data.dart';
+// import 'package:animated_segmented_tab_control/animated_segmented_tab_control.dart';
 
 List<String> names = <String>[
   "Do's",
-  "Dont's'",
-  'Ingredients',
+  "Dont's",
+  'Day \nIngredients',
+  'Night Ingredients', // Fourth tab
 ];
 
 class RecommendationScreen extends StatefulWidget {
@@ -24,7 +26,6 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_typing_uninitialized_variables
     var predictedSkinType;
 
     if (widget.storedResult == "NULL") {
@@ -35,10 +36,10 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
       predictedSkinType = widget.storedResult;
     }
 
-    const colorScheme = Color.fromRGBO(248, 237, 2277, 1);
+    const colorScheme = Color.fromRGBO(248, 237, 227, 1);
     const Color oddItemColor = Color.fromRGBO(208, 184, 168, 0.70);
-    const Color evenItemColor = Color.fromRGBO(248, 237, 2277, 1);
-    const int tabsCount = 3;
+    const Color evenItemColor = Color.fromRGBO(248, 237, 227, 1);
+    const int tabsCount = 4; // Updated tab count to 4
     final skinIndex = skinTypeInfo[getIndex(predictedSkinType)];
 
     if (controller.historyLength < 0) {
@@ -48,8 +49,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
           title: Text("Skin Type $predictedSkinType"),
           actions: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(
-                  right: 20), // Adjust the right margin as needed
+              padding: const EdgeInsets.only(right: 20),
               child: IconButton(
                 icon: const Icon(Icons.home),
                 onPressed: () {
@@ -62,64 +62,62 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
         ),
         backgroundColor: colorScheme,
         body: Center(
-            child: Padding(
-          padding: const EdgeInsets.only(left: 40, right: 40, top: 150),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Oops! No Recommendation found, Please Scan your face to provide recommendations",
-                style: GoogleFonts.salsa(
-                    fontSize: 25, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 12), // Adjust padding if needed
-                  textStyle: const TextStyle(
-                      fontSize: 14), // Adjust font size if needed
+          child: Padding(
+            padding: const EdgeInsets.only(left: 40, right: 40, top: 150),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Oops! No Recommendation found, Please Scan your face to provide recommendations",
+                  style: GoogleFonts.salsa(
+                      fontSize: 25, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/camera');
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize
-                      .min, // Ensures the row is as small as possible
-                  children: [
-                    Text(
-                      "Camera",
-                      style: GoogleFonts.salsa(
-                          fontSize: 15,
-                          color: Colors.black), // Styling for text
-                    ),
-                    const SizedBox(width: 8), // Space between text and icon
-                    const Icon(
-                      Icons.camera_alt_rounded, // Icon to display
-                      size: 20.0, // Size of the icon
-                      color: Colors.black, // Color of the icon
-                    ),
-                  ],
-                ),
-              )
-            ],
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    textStyle: const TextStyle(fontSize: 14),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/camera');
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Camera",
+                        style: GoogleFonts.salsa(
+                            fontSize: 15, color: Colors.black),
+                      ),
+                      const SizedBox(width: 8),
+                      const Icon(
+                        Icons.camera_alt_rounded,
+                        size: 20.0,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        )),
+        ),
       );
     }
+
     return PopScope(
-        canPop: true,
-        child: DefaultTabController(
-          initialIndex: 1,
-          length: tabsCount,
-          child: Scaffold(
+      canPop: true,
+      child: DefaultTabController(
+        initialIndex: 1,
+        length: tabsCount,
+        child: Scaffold(
             appBar: AppBar(
               actions: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(
-                      right: 20), // Adjust the right margin as needed
+                  padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
                     icon: const Icon(Icons.home),
                     onPressed: () {
@@ -148,19 +146,36 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                     text: names[1],
                   ),
                   Tab(
-                    icon: const Icon(Icons.assignment),
-                    text: names[2],
+                    icon: const Icon(Icons.sunny),
+                    child: Text(
+                      names[2],
+                      textAlign:
+                          TextAlign.center, // To center the text across lines
+                      style: const TextStyle(
+                          fontSize: 12), // Adjust the font size if needed
+                    ),
+                  ),
+                  Tab(
+                    icon: const Icon(
+                        Icons.nightlight_round), // New icon for 4th tab
+                    child: Text(
+                      names[3],
+                      textAlign:
+                          TextAlign.center, // To center the text across lines
+                      style: const TextStyle(
+                          fontSize: 12), // Adjust the font size if needed
+                    ), // Fourth tab name
                   ),
                 ],
               ),
             ),
             body: TabBarView(
               children: <Widget>[
+                // Do's Tab
                 Container(
                   color: Colors.white70,
                   child: ListView.builder(
-                    itemCount:
-                        skinTypeInfo[getIndex(predictedSkinType)].dos.length,
+                    itemCount: skinIndex.dos.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         tileColor: index.isOdd ? oddItemColor : evenItemColor,
@@ -169,38 +184,63 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                     },
                   ),
                 ),
+                // Don'ts Tab
                 Container(
                   color: Colors.white70,
                   child: ListView.builder(
-                    itemCount:
-                        skinTypeInfo[getIndex(predictedSkinType)].donts.length,
+                    itemCount: skinIndex.donts.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                          tileColor: index.isOdd ? oddItemColor : evenItemColor,
-                          title: Text(
-                            skinIndex.donts[index],
-                          ));
+                        tileColor: index.isOdd ? oddItemColor : evenItemColor,
+                        title: Text(skinIndex.donts[index]),
+                      );
                     },
                   ),
                 ),
+                // Day Ingredients Tab (with text wrapping)
                 Container(
                   color: Colors.white70,
                   child: ListView.builder(
-                    itemCount: skinTypeInfo[getIndex(predictedSkinType)]
-                        .dayIngredients
-                        .length,
+                    itemCount: skinIndex.dayIngredients.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                          tileColor: index.isOdd ? oddItemColor : evenItemColor,
-                          title: Text(
-                            skinIndex.dayIngredients[index],
-                          ));
+                        tileColor: index.isOdd ? oddItemColor : evenItemColor,
+                        title: Text(
+                          skinIndex.dayIngredients[index],
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                          softWrap:
+                              true, // Allows text to wrap onto the next line
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                // Night Ingredients Tab (with text wrapping)
+                Container(
+                  color: Colors.white70,
+                  child: ListView.builder(
+                    itemCount: skinIndex.nightIngredients.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        tileColor: index.isOdd ? oddItemColor : evenItemColor,
+                        title: Text(
+                          skinIndex.nightIngredients[index],
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+
+                          softWrap:
+                              true, // Allows text to wrap onto the next line
+                        ),
+                      );
                     },
                   ),
                 ),
               ],
-            ),
-          ),
-        ));
+            )),
+      ),
+    );
   }
 }

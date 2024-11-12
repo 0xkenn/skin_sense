@@ -10,24 +10,33 @@ import 'package:skin_sense/view/screens/camera_screen.dart';
 import 'package:skin_sense/view/screens/home_screen.dart';
 import 'package:skin_sense/view/screens/privacy.dart';
 
-void main() {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  initialize();
+void main() async {
+  // Ensure widget binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Preserve the splash screen until the initialization is done
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
+
+  // Initialize Hive and other resources
+  await initialize();
+
+  // Remove the splash screen
   FlutterNativeSplash.remove();
+
+  // Run the app
   runApp(const MyApp());
 }
 
-void initialize() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter(HistoryAdapter());
-  await BoxRepository.openBox();
+Future<void> initialize() async {
+  await Hive.initFlutter(); // Initialize Hive
+  Hive.registerAdapter(HistoryAdapter()); // Register  adapter
+  await BoxRepository.openBox(); // Open  Hive box
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

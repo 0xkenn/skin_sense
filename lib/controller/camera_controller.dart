@@ -8,25 +8,28 @@ abstract interface class ICameraController {
   Widget getCameraPreview();
   void rotateCamera();
   void dispose();
-  CameraLensDirection
-      get currentDirection; // Add a getter for the current direction
+  CameraLensDirection get currentDirection;
 }
 
 class CameraControllerClass implements ICameraController {
   late CameraController _cameraController;
-  CameraLensDirection _direction = CameraLensDirection.front;
+  CameraLensDirection _direction = CameraLensDirection.back;
+  final Logger _logger = Logger(printer: LogfmtPrinter());
 
   @override
-  CameraLensDirection get currentDirection =>
-      _direction; // Implement the getter
+  CameraLensDirection get currentDirection => _direction;
 
   @override
   Future<void> rotateCamera() async {
-    _direction = _direction == CameraLensDirection.front
-        ? CameraLensDirection.back
-        : CameraLensDirection.front;
-
-    await initialize(); // Ensure to initialize after rotation
+    try {
+      _direction = _direction == CameraLensDirection.front
+          ? CameraLensDirection.back
+          : CameraLensDirection.front;
+      await initialize(); // Re-initialize the camera with the new direction
+    } catch (e) {
+      _logger.e('Error rotating camera: $e');
+      rethrow; // Rethrow to catch elsewhere if needed
+    }
   }
 
   @override
@@ -38,33 +41,44 @@ class CameraControllerClass implements ICameraController {
 
       _cameraController = CameraController(
         camera,
-        ResolutionPreset.medium,
+        ResolutionPreset.ultraHigh,
         enableAudio: false,
       );
 
       await _cameraController.initialize();
     } catch (e) {
-      Logger logger = Logger(printer: LogfmtPrinter());
-      logger.e('Error initializing camera: $e');
+      _logger.e('Error initializing camera: $e');
+      rethrow; // Rethrow to allow higher-level error handling
     }
   }
 
   @override
   Future<XFile?> takePicture() async {
     if (_cameraController.value.isInitialized) {
-      return await _cameraController.takePicture();
+      try {
+        return await _cameraController.takePicture();
+      } catch (e) {
+        _logger.e('Error taking picture: $e');
+        return null; // Handle failure and return null
+      }
+    } else {
+      _logger.e('Camera not initialized');
+      return null;
     }
-    return null;
   }
 
   @override
   Widget getCameraPreview() {
-    final isFrontCamera = _direction == CameraLensDirection.front;
+    if (!_cameraController.value.isInitialized) {
+      return const Center(
+          child: CircularProgressIndicator()); // Display loading indicator
+    }
 
+    final isFrontCamera = _direction == CameraLensDirection.front;
     return Center(
       child: SizedBox(
-        width: 400, // Increased width for larger preview
-        height: 600, // Increased height for larger preview
+        width: 400, // Larger preview
+        height: 600,
         child: Transform(
           alignment: Alignment.center,
           transform:
@@ -81,5 +95,6 @@ class CameraControllerClass implements ICameraController {
   @override
   void dispose() {
     _cameraController.dispose();
+    _logger.i('Camera disposed');
   }
 }

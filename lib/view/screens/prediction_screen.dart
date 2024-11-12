@@ -15,7 +15,7 @@ class PredictionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String predictedSkinType = predictionResult?[0]['label'];
+    final String predictedSkinType = predictionResult?[0]['label'] ?? 'unknown';
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -28,7 +28,7 @@ class PredictionScreen extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.home),
                   onPressed: () {
-                    Get.to('/home');
+                    Get.toNamed('/home');
                   },
                 ),
               ),
@@ -53,10 +53,12 @@ class PredictionScreen extends StatelessWidget {
                 children: [
                   ImageView(imagePath: imagePath),
                   SkinTypeText(skin: predictedSkinType, type: "Skin Type"),
-                  BottomText(
-                    predictedSkinType: predictedSkinType,
-                    predictions: predictionResult,
-                  ),
+                  if (predictedSkinType != 'unknown') ...[
+                    BottomText(
+                      predictedSkinType: predictedSkinType,
+                      predictions: predictionResult,
+                    ),
+                  ],
                 ],
               ),
             ),

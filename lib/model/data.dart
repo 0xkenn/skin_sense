@@ -39,12 +39,17 @@ List<SkinRecommendation> skinTypeInfo = [
       'Cocoa extract',
       'Blueberry extract'
     ],
-    nightIngredients: ['chlorine', 'charger', 'acid'],
+    nightIngredients: [
+      'Retinol',
+      'Hyaluronic acid',
+      'Ceramides',
+      'Niacinamide'
+    ],
   ),
   SkinRecommendation(
     name: 'dry',
     dos: [
-      'Take a short, warm shower. ',
+      'Take a short, warm shower.',
       'Use a moisturizer that is oil-based.',
       'Cleanse gently',
       'Use a non-soap liquid cleanser when you shower.',
@@ -55,10 +60,10 @@ List<SkinRecommendation> skinTypeInfo = [
     ],
     donts: [
       'Avoid using hot water when you shower.',
-      'Avoid moisturizers that are water-based. ',
+      'Avoid moisturizers that are water-based.',
       'Avoid overusing toners, peels and other astringents that contain alcohol.',
-      'Avoid leaving your heater on. ',
-      "Don't wash twice a day . ",
+      'Avoid leaving your heater on.',
+      "Don't wash twice a day.",
       "Don't use products with fragrances"
     ],
     dayIngredients: [
@@ -76,24 +81,24 @@ List<SkinRecommendation> skinTypeInfo = [
       'Pataua Oil',
       'Panthenol'
     ],
-    nightIngredients: ['alcohol', 'almond', 'alcohol'],
+    nightIngredients: ['Shea Butter', 'Glycerin', 'Ceramides'],
   ),
   SkinRecommendation(
     name: 'oily',
     dos: [
       'Do wash your face every day and night',
-      'Use non- comedogenic products',
+      'Use non-comedogenic products',
       'Always moisturize your face.',
       'Always wear sunscreen',
       'Exfoliate weekly',
       'Use blotting papers throughout the day.',
-      'Do use a gentle, foaming face wash. '
+      'Do use a gentle, foaming face wash.'
     ],
     donts: [
       'Don’t touch your face throughout the day.',
       'Don’t over wash your face.',
       'Avoid heavy make-up.',
-      "Don't overmedicate.",
+      "Don't overmedicate."
     ],
     dayIngredients: [
       'Niacinamide',
@@ -103,9 +108,9 @@ List<SkinRecommendation> skinTypeInfo = [
       'Tea Tree Oil',
       'Aloe Vera',
       'Zinc',
-      'Glycolic acid',
+      'Glycolic acid'
     ],
-    nightIngredients: ['alcohol', 'almond', 'alcohol'],
+    nightIngredients: ['Salicylic Acid', 'Tea Tree Oil', 'Niacinamide'],
   ),
   SkinRecommendation(
     name: 'acne',
@@ -115,12 +120,11 @@ List<SkinRecommendation> skinTypeInfo = [
       'Do Use Soothing Techniques',
       'Do Try Over The Counter Help',
       'Do Seek Professional Advice',
-      'DO use a mild non-abrasive cleanser',
+      'DO use a mild non-abrasive cleanser'
     ],
     donts: [
       'DON’T cover or conceal acne with cosmetics',
-      'DON’T over examine your skin',
-      'kiss'
+      'DON’T over examine your skin'
     ],
     dayIngredients: [
       'Benzoyl peroxide',
@@ -132,9 +136,9 @@ List<SkinRecommendation> skinTypeInfo = [
       'Azelaic acid',
       'Vitamin C',
       'Tea tree oil',
-      'kaolin clay',
+      'Kaolin clay'
     ],
-    nightIngredients: ['alcohol', 'almond', 'alcohol'],
+    nightIngredients: ['Benzoyl Peroxide', 'Retinol', 'Adapalene'],
   ),
   SkinRecommendation(
     name: 'combination',
@@ -142,19 +146,19 @@ List<SkinRecommendation> skinTypeInfo = [
       'Mix up your products',
       'Exfoliate regularly',
       'Keep changing your skincare routine',
-      'Do pick products for your skin type. ',
+      'Do pick products for your skin type.',
       'Do divide and conquer',
       'Try a Targeted Approach to Product Application',
       'Focus on Long-Term Hydration',
       'Choose Active Ingredients That Suit Your Skin Type'
     ],
     donts: [
-      'Skip moisturizer. ',
+      'Skip moisturizer.',
       'Forget to use a toner',
       "Don't forget to exfoliate",
       "Don't get stuck in a rut",
-      "Go Overboard Trying to Control Oil. ",
-      "Use Heavy Products",
+      "Go Overboard Trying to Control Oil.",
+      "Use Heavy Products"
     ],
     dayIngredients: [
       'Lactic Acid',
@@ -172,15 +176,13 @@ List<SkinRecommendation> skinTypeInfo = [
       'Azelaic Acid',
       'Tea Tree Oil'
     ],
-    nightIngredients: ['alcohol', 'almond', 'alcohol'],
+    nightIngredients: ['Retinol', 'Hyaluronic Acid', 'Niacinamide'],
   ),
   SkinRecommendation(
-    name: '',
-    dos: [],
-    donts: [],
-    dayIngredients: [],
-    nightIngredients: [],
-  )
+    name: 'unknown',
+    dos: ['N/A'],
+    donts: ['N/A'],
+    dayIngredients: ['N/A'],
+    nightIngredients: ['N/A'],
+  ),
 ];
-//lanex
-
